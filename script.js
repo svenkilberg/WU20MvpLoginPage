@@ -1,5 +1,9 @@
 'use strict'
 
+let userName = 'test';
+let password = '1234';
+let mainDiv = document.getElementById('mainDiv');
+
 function authenticate() {
 
     /*  Det här är en central funktion som styr vilken vy som skall skapas.
@@ -13,16 +17,22 @@ function authenticate() {
         
         Om localStorage är tomt kallar funktionen på createMainView.
         Detta används när sidan laddas och inte användaren är inloggad.
-
-        Det här är en central funktion som styr vilken vy som skall skapas.
-        Det är också denna funktion som kallas på när sidan ladas om.
     */
     // Om localStorage user and password = OK kalla på createLogedinview.
 
     // Om localStorage user eller password != OK kalla på creatErrorView.
 
     // Om localStorage är tomt kalla på createMainView.
-    
+
+    if (localStorage.userName === userName && localStorage.password === password) {
+        createLoggedinView();
+    }
+    else if (localStorage.length <= 0) {
+        createMainView();
+    }
+    else {
+        createErrorView();
+    }
 }
 
 function createLoggedinView()  {
@@ -50,6 +60,16 @@ function createErrorView() {
     // <p> med texten "Användaren [skriv ut usernamnet från variabel] är fel."
     // <p> med texten "Användaren [skriv ut password från variabel] är fel."
     // Lägg till en knapp längst ner med texten "Tillbaka".
+
+    // ATT GÖRA 200907 - Lägg till logiken som visar vad som har gått fel.
+
+    mainDiv.innerHTML = '<h4>Fel inloggning!</h4>' +                       
+                        '<input type=\"button\" value=\"Tillbaka\" id="backButton">';
+
+    document.getElementById('backButton').addEventListener('click', function() {
+        localStorage.clear();
+        createMainView();
+    }); 
 }
 
 function createMainView() {
@@ -66,5 +86,30 @@ function createMainView() {
     // Lägg till en input text med label "Användarnamn".
     // Lägg till en input text med label "Löenord".
     // Lägg till en knapp med texten "Logga in"
+
+    mainDiv.innerHTML = '<h4>Välkommen att logga in.</h4>' + 
+                        '<form id=\"logginForm\">' +
+                        '<label for=\"userInput\">Användarnamn:</label>' +
+                        '<input type=\"text\" id=\"userInput\">' +
+                        '<label for=\"passwordInput\">Lösenord:</label>' +
+                        '<input type=\"text\" id=\"passwordInput\"></input>' +
+                        '<input type=\"button\" value=\"Logga in\" id="logginButton">' +
+                        '</form>';
+
+    let userInput = document.getElementById('userInput');
+    let passwordInput = document.getElementById('passwordInput');
+    let logginButton = document.getElementById('logginButton');
+        
+    logginButton.addEventListener('click', function() {
+        localStorage.setItem(userInput.value, passwordInput.value);
+        console.log(localStorage);
+        authenticate();
+
+    });
+    
+    
+
 }
+
+authenticate();
     
