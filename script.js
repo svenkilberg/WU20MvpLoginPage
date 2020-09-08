@@ -1,6 +1,6 @@
 'use strict'
 
-let userName = 'test';
+let username = 'test';
 let password = '1234';
 let mainDiv = document.getElementById('mainDiv');
 
@@ -24,7 +24,7 @@ function authenticate() {
 
     // Om localStorage är tomt kalla på createMainView.
 
-    if (localStorage.userName === userName && localStorage.password === password) {
+    if (localStorage.getItem('username') === username && localStorage.getItem('password') === password) {
         createLoggedinView();
     }
     else if (localStorage.length <= 0) {
@@ -58,13 +58,25 @@ function createErrorView() {
     // <h4> med texten "Fel inloggning !"
     // Beroende på vad som är fel skriv ut en eller båda av:
     // <p> med texten "Användaren [skriv ut usernamnet från variabel] är fel."
-    // <p> med texten "Användaren [skriv ut password från variabel] är fel."
+    // <p> med texten "Lösenordet [skriv ut password från variabel] är fel."
     // Lägg till en knapp längst ner med texten "Tillbaka".
 
-    // ATT GÖRA 200907 - Lägg till logiken som visar vad som har gått fel.
+    
 
     mainDiv.innerHTML = '<h4>Fel inloggning!</h4>' +                       
                         '<input type=\"button\" value=\"Tillbaka\" id="backButton">';
+    
+    const backButton = document.getElementById('backButton');
+    const usernameErrorText = `<p>Användaren ${localStorage.getItem('username')} är fel.`;
+    const passwordErrorText = `<p>Lösenordet ${localStorage.getItem('password')} är fel.`;
+    
+    if (localStorage.getItem('username') !== username) {
+        backButton.insertAdjacentHTML('beforebegin', usernameErrorText);
+    }
+
+    if (localStorage.getItem('password') !== password) {
+        backButton.insertAdjacentHTML('beforebegin', passwordErrorText);
+    }
 
     document.getElementById('backButton').addEventListener('click', function() {
         localStorage.clear();
@@ -101,7 +113,8 @@ function createMainView() {
     let logginButton = document.getElementById('logginButton');
         
     logginButton.addEventListener('click', function() {
-        localStorage.setItem(userInput.value, passwordInput.value);
+        localStorage.setItem('username', userInput.value); // Dela upp på två element.
+        localStorage.setItem('password', passwordInput.value);
         console.log(localStorage);
         authenticate();
 
