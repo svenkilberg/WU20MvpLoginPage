@@ -25,7 +25,7 @@ function authenticate() {
     // Om localStorage är tomt kalla på createMainView.   
 
     if (localStorage.getItem('username') === username && localStorage.getItem('password') === password) {
-        createLoggedinView();
+        createLoggedInView();
     }
     else if (localStorage.length <= 0) {
         createMainView();
@@ -35,7 +35,7 @@ function authenticate() {
     }
 }
 
-function createLoggedinView()  {
+function createLoggedInView()  {
 
     /* Funktionen skapar vyn användaren kommer till när den har blivit inloggad.
        Det finns en knapp "Logga ut" som kallar på functionen createMainView.
