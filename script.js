@@ -22,7 +22,7 @@ function authenticate() {
 
     // Om localStorage user eller password != OK kalla på creatErrorView.
 
-    // Om localStorage är tomt kalla på createMainView.
+    // Om localStorage är tomt kalla på createMainView.   
 
     if (localStorage.getItem('username') === username && localStorage.getItem('password') === password) {
         createLoggedinView();
@@ -45,6 +45,18 @@ function createLoggedinView()  {
     // <h4> med texten "Välkommen [skriv ut usernamnet från variabel] !"
     // <p> med texten "Det här är din personliga sida".
     // Lägg till en knapp längst ner med texten "Logga ut".
+    
+    mainDiv.innerHTML = `<h4>Välkommen användare: ${localStorage.getItem('username')}!</h4>` +
+                        '<p>Det här är din personliga sida.</p>' +
+                        '<p>Den här texten visas bara om du är inloggad.<br>' +
+                        '<br>' +                        
+                        '<input type=\"button\" value=\"Logga ut\" id="loggoutButton">';
+
+    document.getElementById('loggoutButton').addEventListener('click', function() {
+        localStorage.clear();
+        createMainView()
+    });
+                        
 }
 
 function createErrorView() {
