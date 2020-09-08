@@ -10,7 +10,7 @@ function authenticate() {
         Det är också denna funktion som kallas på när sidan ladas om.
 
         Funktionen kollar om user och password som finns lagrad i localStorage stämmer med det
-        som är hårkodat i två variabler.
+        som är hårdkodat i två variabler.
         Om det gör det kallar den på funktionen createLogedinView.
 
         Om user och password inte stämmer kallar den på createErrorView.
@@ -113,7 +113,7 @@ function createMainView() {
     let logginButton = document.getElementById('logginButton');
         
     logginButton.addEventListener('click', function() {
-        localStorage.setItem('username', userInput.value); // Dela upp på två element.
+        localStorage.setItem('username', userInput.value);
         localStorage.setItem('password', passwordInput.value);
         console.log(localStorage);
         authenticate();
