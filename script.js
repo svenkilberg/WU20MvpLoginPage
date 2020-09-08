@@ -11,18 +11,13 @@ function authenticate() {
 
         Funktionen kollar om user och password som finns lagrad i localStorage stämmer med det
         som är hårdkodat i två variabler.
-        Om det gör det kallar den på funktionen createLogedinView.
+        Om det gör det kallar den på funktionen createLogedInView.
 
         Om user och password inte stämmer kallar den på createErrorView.
         
         Om localStorage är tomt kallar funktionen på createMainView.
         Detta används när sidan laddas och inte användaren är inloggad.
-    */
-    // Om localStorage user and password = OK kalla på createLogedinview.
-
-    // Om localStorage user eller password != OK kalla på creatErrorView.
-
-    // Om localStorage är tomt kalla på createMainView.   
+    */      
 
     if (localStorage.getItem('username') === username && localStorage.getItem('password') === password) {
         createLoggedInView();
@@ -40,11 +35,7 @@ function createLoggedInView()  {
     /* Funktionen skapar vyn användaren kommer till när den har blivit inloggad.
        Det finns en knapp "Logga ut" som kallar på functionen createMainView.
        Denna knapp rensar också localStorage. 
-    */
-    // Ändra mainDiv innerHTML.
-    // <h4> med texten "Välkommen [skriv ut usernamnet från variabel] !"
-    // <p> med texten "Det här är din personliga sida".
-    // Lägg till en knapp längst ner med texten "Logga ut".
+    */   
     
     mainDiv.innerHTML = `<h4>Välkommen användare: ${localStorage.getItem('username')}!</h4>` +
                         '<p>Det här är din personliga sida.</p>' +
@@ -54,26 +45,17 @@ function createLoggedInView()  {
 
     document.getElementById('loggoutButton').addEventListener('click', function() {
         localStorage.clear();
-        createMainView()
-    });
-                        
+        createMainView();
+    });                        
 }
 
 function createErrorView() {
 
-    /* Funktionen skapar den vy användaren kommer till om den har knappat in fel lösenord.
+    /* Funktionen skapar den vy användaren kommer till om den har skrivit in fel lösenord.
        Det finns en knapp "Tillbaka" som kallar på funktionen createMainView så användaren kan
        göra ett nytt inloggningsförsök.
        Denna knapp rensar också localStorage. 
-    */
-    // Ändra mainDiv innerHTML.
-    // <h4> med texten "Fel inloggning !"
-    // Beroende på vad som är fel skriv ut en eller båda av:
-    // <p> med texten "Användaren [skriv ut usernamnet från variabel] är fel."
-    // <p> med texten "Lösenordet [skriv ut password från variabel] är fel."
-    // Lägg till en knapp längst ner med texten "Tillbaka".
-
-    
+    */  
 
     mainDiv.innerHTML = '<h4>Fel inloggning!</h4>' +                       
                         '<input type=\"button\" value=\"Tillbaka\" id="backButton">';
@@ -82,6 +64,7 @@ function createErrorView() {
     const usernameErrorText = `<p>Användaren ${localStorage.getItem('username')} är fel.`;
     const passwordErrorText = `<p>Lösenordet ${localStorage.getItem('password')} är fel.`;
     
+    // Kontrollerar om användare och/eller lösenord är fel och skriver ut en hjälptext.
     if (localStorage.getItem('username') !== username) {
         backButton.insertAdjacentHTML('beforebegin', usernameErrorText);
     }
@@ -100,16 +83,8 @@ function createMainView() {
 
     /* Denna funktion skapar den vy användaren kommer till om den inte är inloggad.
        Det finns två textrutor för användarnamn och lödenord samt en knapp för att logga in.
-       Funktionen lagrar det som skrivits in i textrutorna i localStorage. 
-
-    */
-
-    // Ändra mainDiv innerHTML.
-    // <h4> med texten "Välkommen att logga in."
-    // Skapa ett form.
-    // Lägg till en input text med label "Användarnamn".
-    // Lägg till en input text med label "Löenord".
-    // Lägg till en knapp med texten "Logga in"
+       Funktionen lagrar det som skrivits in i textrutorna i localStorage.
+    */   
 
     mainDiv.innerHTML = '<h4>Välkommen att logga in.</h4>' + 
                         '<form id=\"logginForm\">' +
@@ -126,15 +101,10 @@ function createMainView() {
         
     logginButton.addEventListener('click', function() {
         localStorage.setItem('username', userInput.value);
-        localStorage.setItem('password', passwordInput.value);
-        console.log(localStorage);
+        localStorage.setItem('password', passwordInput.value);        
         authenticate();
-
     });
-    
-    
-
 }
 
-authenticate();
+authenticate(); // Kallar på authenticate när sidan laddas om eller öppnas första gången.
     
