@@ -6,17 +6,19 @@ let mainDiv = document.getElementById('mainDiv');
 
 function authenticate() {
 
-    /*  Det här är en central funktion som styr vilken vy som skall skapas.
-        Det är också denna funktion som kallas på när sidan ladas om.
-
-        Funktionen kollar om user och password som finns lagrad i localStorage stämmer med det
-        som är hårdkodat i två variabler.
-        Om det gör det kallar den på funktionen createLogedInView.
+    /*  Det här är en central funktion som styr vilken vy som skall skapas.        
+        
+        Om user och password stämmer kallar den på createLogedInView.
 
         Om user och password inte stämmer kallar den på createErrorView.
         
         Om localStorage är tomt kallar funktionen på createMainView.
         Detta används när sidan laddas och inte användaren är inloggad.
+
+        Logiken har tre tillstånd (states) som avgörs av vad som finns i localStorage.
+        Om localStorage är tomt är användaren utloggad.
+        Om localStorage innehåller rätt användarnamn och lösenord är användaren inloggad.
+        Om något av användarnamn eller lösenord i localStorage är fel är inloggningen misslyckad.
     */      
 
     if (localStorage.getItem('username') === username && localStorage.getItem('password') === password) {
