@@ -1,0 +1,10 @@
+#mainDiv {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: large;
+}
+
+input[type=text] {
+    margin-right: 10px;
+}
+
