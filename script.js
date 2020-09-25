@@ -1,8 +1,18 @@
 'use strict'
 
-let username = 'test';
-let password = '1234';
+//let username = 'test';
+//let password = '1234';
+
+let users = [];
 let mainDiv = document.getElementById('mainDiv');
+
+
+
+
+
+
+
+        
 
 function authenticate() {
 
@@ -19,12 +29,21 @@ function authenticate() {
         Om localStorage är tomt är användaren utloggad.
         Om localStorage innehåller rätt användarnamn och lösenord är användaren inloggad.
         Om något av användarnamn eller lösenord i localStorage är fel är inloggningen misslyckad.
-    */      
+    */ 
+   
+   fetch('users.json')
+   .then(response => response.json())
+   .then(json => users.push(json))
 
-    if (localStorage.getItem('username') === username && localStorage.getItem('password') === password) {
-        createLoggedInView();
+    for (let i = 0; i < users.length; i++) {
+        if (localStorage.getItem('username') === users[i].user && localStorage.getItem('password') === users[i].password) {
+            localStorage.setItem('loggedInId', i);
+            console.log('I am here!');
+            createLoggedInView();
+        }
     }
-    else if (localStorage.length <= 0) {
+    
+    if (localStorage.length <= 0) {
         createMainView();
     }
     else {
