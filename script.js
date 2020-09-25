@@ -3,16 +3,8 @@
 //let username = 'test';
 //let password = '1234';
 
-let users = [];
-let mainDiv = document.getElementById('mainDiv');
 
-
-
-
-
-
-
-        
+let mainDiv = document.getElementById('mainDiv');        
 
 function authenticate() {
 
@@ -33,22 +25,29 @@ function authenticate() {
    
    fetch('users.json')
    .then(response => response.json())
-   .then(json => users.push(json))
+   .then(json => {       
+        console.log(json);
+        for (let i = 0; i < json.length; i++) {
+            if (localStorage.getItem('username') == json[i].user && localStorage.getItem('password') == json[i].password) {
+                console.log('I am here!');
+                localStorage.setItem('loggedInUser', '[]');
 
-    for (let i = 0; i < users.length; i++) {
-        if (localStorage.getItem('username') === users[i].user && localStorage.getItem('password') === users[i].password) {
-            localStorage.setItem('loggedInId', i);
-            console.log('I am here!');
-            createLoggedInView();
+                let old_data = JSON.parse(localStorage.getItem('loggedInUser'));
+                old_data.push(json[i]);
+
+                localStorage.setItem('loggedInUser', JSON.stringify(old_data));
+                
+                createLoggedInView();
+            }
         }
-    }
-    
-    if (localStorage.length <= 0) {
-        createMainView();
-    }
-    else {
-        createErrorView();
-    }
+        
+        // if (localStorage.length <= 0) {
+        //     createMainView();
+        // }
+        // else {
+        //     createErrorView();
+        // }
+    })
 }
 
 function createLoggedInView()  {
@@ -95,6 +94,7 @@ function createErrorView() {
     }
 
     document.getElementById('backButton').addEventListener('click', function() {
+        console.log('I am in createErrorView');
         localStorage.clear();
         createMainView();
     }); 
